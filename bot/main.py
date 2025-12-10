@@ -19,6 +19,7 @@ from bot.handlers.utility import utility_router
 from bot.handlers.mayor import mayor_router
 from bot.handlers.feedback import feedback_router
 from bot.handlers.change_city import change_city_router
+from bot.handlers.narcotags import narcotags_router
 
 # Настройка логирования
 logging.basicConfig(
@@ -46,6 +47,7 @@ async def main():
     dp.include_router(mayor_router)
     dp.include_router(feedback_router)
     dp.include_router(change_city_router)
+    dp.include_router(narcotags_router)
 
     logger.info("Бот запущен и готов к работе")
 

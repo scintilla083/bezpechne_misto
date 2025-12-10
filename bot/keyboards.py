@@ -18,6 +18,7 @@ def main_menu_keyboard() -> ReplyKeyboardMarkup:
             ],
             [
                 KeyboardButton(text="Звернення до міської ради"),
+                KeyboardButton(text="Наркотеги"),
                 KeyboardButton(text="Про сервіс"),
             ],
             [

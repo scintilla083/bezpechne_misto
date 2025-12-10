@@ -10,12 +10,14 @@ from bot.states import (
     MayorState,
     FeedbackState,
     ChangeCityState,
+    NarcotagsState
 )
 from bot.keyboards import (
     main_menu_keyboard,
     police_menu_keyboard,
     back_to_menu_keyboard,
     utility_menu_keyboard,
+    collecting_keyboard,
     BTN_BACK,
 )
 from bot.utils import (
@@ -165,4 +167,22 @@ async def go_back_to_main(message: Message, state: FSMContext, bot: Bot):
         state=state,
         with_photo=False,
         delete_user_messages_flag=True,  # <-- добавим такой параметр
+    )
+
+@main_menu_router.message(MainMenuState.main, F.text == "Наркотеги")
+async def menu_narcotags(message: Message, state: FSMContext, bot: Bot):
+    """Меню наркотегов (сбор ГЕО + фото)"""
+    await track_user_message(state, message.message_id)
+
+    await state.update_data(appeal_id=None, messages_collected=0)
+    await state.set_state(NarcotagsState.collecting)
+
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text="Надішліть геолокацію та фото наркотегів. Можете також додати текст.\n\n"
+             "Коли завершите — натисніть кнопку:",
+        state=state,
+        reply_markup=collecting_keyboard(),
+        delete_user_messages_flag=True,
     )

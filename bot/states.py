@@ -21,6 +21,9 @@ class UtilityState(StatesGroup):
     collecting = State()
     confirming = State()
 
+class NarcotagsState(StatesGroup):
+    collecting = State()
+    confirming = State()
 
 class MayorState(StatesGroup):
     collecting = State()

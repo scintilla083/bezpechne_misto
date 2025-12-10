@@ -32,6 +32,7 @@ class Appeal(models.Model):
         UTILITY = "utility", "Комунальне підприємство"
         MAYOR = "mayor", "Мерія"
         FEEDBACK = "feedback", "Зворотній зв'язок"
+        NARCOTAGS = "narcotags", "Наркотеги"
 
     class PoliceCategory(models.TextChoices):
         NARCOTIC = "narcotic", "Наркозлочин"
