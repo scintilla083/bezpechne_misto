@@ -4,7 +4,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     InlineKeyboardButton,
 )
-
+from bot.data.hromadas import HROMADAS
 BTN_BACK = "⬅️ Повернутися до головного меню"
 
 
@@ -102,3 +102,15 @@ def utility_menu_keyboard() -> ReplyKeyboardMarkup:
         resize_keyboard=True,
         one_time_keyboard=True,
     )
+
+def hromada_keyboard():
+    keyboard = [[KeyboardButton(text=name)] for name in HROMADAS.keys()]
+    keyboard.append([KeyboardButton(text=BTN_BACK)])
+    return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
+
+def village_keyboard(hromada_name: str):
+    villages = HROMADAS.get(hromada_name, [])
+    keyboard = [[KeyboardButton(text=v)] for v in villages]
+    keyboard.append([KeyboardButton(text="⬅️ Назад до громад")])
+    keyboard.append([KeyboardButton(text=BTN_BACK)])
+    return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)

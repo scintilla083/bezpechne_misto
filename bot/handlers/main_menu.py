@@ -18,6 +18,7 @@ from bot.keyboards import (
     back_to_menu_keyboard,
     utility_menu_keyboard,
     collecting_keyboard,
+    hromada_keyboard,
     BTN_BACK,
 )
 from bot.utils import (
@@ -142,15 +143,16 @@ async def menu_feedback(message: Message, state: FSMContext, bot: Bot):
 
 @main_menu_router.message(MainMenuState.main, F.text == "Змінити населений пункт")
 async def menu_change_city(message: Message, state: FSMContext, bot: Bot):
-    """Изменить город"""
     await track_user_message(state, message.message_id)
-    await state.set_state(ChangeCityState.waiting_for_city)
+
+    await state.set_state(ChangeCityState.waiting_for_hromada)
+
     await send_clean_message(
         bot=bot,
         message=message,
-        text=texts.CHANGE_CITY_TEXT,
+        text="Оберіть територіальну громаду Кам’янець-Подільського району:",
         state=state,
-        reply_markup=ReplyKeyboardRemove(),
+        reply_markup=hromada_keyboard(),
         delete_user_messages_flag=True,
     )
 

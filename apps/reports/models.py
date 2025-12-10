@@ -88,6 +88,15 @@ class Appeal(models.Model):
         default=False, verbose_name="Відправлено користувачем"
     )
 
+    admin_reply = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Відповідь адміністратора",
+    )
+    reply_sent = models.BooleanField(
+        default=False,
+        verbose_name="Відповідь відправлена користувачу",
+    )
     def __str__(self):
         return f"Звернення #{self.pk} від {self.user}"
 

@@ -35,4 +35,5 @@ class FeedbackState(StatesGroup):
 
 
 class ChangeCityState(StatesGroup):
-    waiting_for_city = State()
+    waiting_for_hromada = State()
+    waiting_for_village = State()
