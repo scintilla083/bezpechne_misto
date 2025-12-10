@@ -35,7 +35,18 @@ class Appeal(models.Model):
 
     class PoliceCategory(models.TextChoices):
         NARCOTIC = "narcotic", "Наркозлочин"
-        OTHER = "other", "Інше правопорушення"
+        OTHER = "other", "Інше порушення"
+        ACCIDENT = "accident", "ДТП"
+        DRINKING = "drinking", "Розпиття алкоголю"
+        PUBLIC_ORDER = "public_order", "Порушення громадського порядку"
+        PARKING = "parking", "Неправильна парковка"
+
+    class UtilityCategory(models.TextChoices):
+        TRASH_OVERFLOW = "trash_overflow", "Переповнений смітник"
+        WEATHER_DAMAGE = "weather_damage", "Наслідки негоди"
+        SHELTER_CLOSED = "shelter_closed", "Зачинене бомбосховище"
+        LITTERING = "littering", "Засмічення"
+        OTHER = "other", "Інший випадок"
 
     user = models.ForeignKey(
         TelegramUser,
@@ -52,6 +63,13 @@ class Appeal(models.Model):
         blank=True,
         null=True,
         verbose_name="Категорія (поліція)",
+    )
+    utility_category = models.CharField(
+        max_length=20,
+        choices=UtilityCategory.choices,
+        blank=True,
+        null=True,
+        verbose_name="Категорія (комунальне підприємство)",
     )
 
     text = models.TextField(verbose_name="Текст повідомлення")

@@ -167,3 +167,109 @@ async def confirm_utility_no(callback: CallbackQuery, state: FSMContext, bot: Bo
         reply_markup=main_menu_keyboard(),
         delete_user_messages_flag=True,  # ✅ УДАЛЯЕМ сообщения пользователя
     )
+
+
+@utility_router.message(UtilityState.choosing_category, F.text == "Переповнений смітник")
+async def choose_trash_overflow(message: Message, state: FSMContext, bot: Bot):
+    await track_user_message(state, message.message_id)
+
+    await create_or_update_appeal(
+        message=message,
+        state=state,
+        target=Appeal.Target.UTILITY,
+        utility_category=Appeal.UtilityCategory.TRASH_OVERFLOW
+    )
+
+    await state.set_state(UtilityState.collecting)
+
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text=texts.UTILITY_TEXT,
+        state=state,
+        reply_markup=collecting_keyboard(),
+    )
+
+
+@utility_router.message(UtilityState.choosing_category, F.text == "Наслідки негоди")
+async def choose_weather_damage(message: Message, state: FSMContext, bot: Bot):
+    await track_user_message(state, message.message_id)
+
+    await create_or_update_appeal(
+        message=message,
+        state=state,
+        target=Appeal.Target.UTILITY,
+        utility_category=Appeal.UtilityCategory.WEATHER_DAMAGE
+    )
+
+    await state.set_state(UtilityState.collecting)
+
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text=texts.UTILITY_TEXT,
+        state=state,
+        reply_markup=collecting_keyboard(),
+    )
+@utility_router.message(UtilityState.choosing_category, F.text == "Зачинене бомбосховище")
+async def choose_shelter_closed(message: Message, state: FSMContext, bot: Bot):
+    await track_user_message(state, message.message_id)
+
+    await create_or_update_appeal(
+        message=message,
+        state=state,
+        target=Appeal.Target.UTILITY,
+        utility_category=Appeal.UtilityCategory.SHELTER_CLOSED
+    )
+
+    await state.set_state(UtilityState.collecting)
+
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text=texts.UTILITY_TEXT,
+        state=state,
+        reply_markup=collecting_keyboard(),
+    )
+
+@utility_router.message(UtilityState.choosing_category, F.text == "Засмічення")
+async def choose_littering(message: Message, state: FSMContext, bot: Bot):
+    await track_user_message(state, message.message_id)
+
+    await create_or_update_appeal(
+        message=message,
+        state=state,
+        target=Appeal.Target.UTILITY,
+        utility_category=Appeal.UtilityCategory.LITTERING
+    )
+
+    await state.set_state(UtilityState.collecting)
+
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text=texts.UTILITY_TEXT,
+        state=state,
+        reply_markup=collecting_keyboard(),
+    )
+
+@utility_router.message(UtilityState.choosing_category, F.text == "Інший випадок")
+async def choose_other_utility(message: Message, state: FSMContext, bot: Bot):
+    await track_user_message(state, message.message_id)
+
+    await create_or_update_appeal(
+        message=message,
+        state=state,
+        target=Appeal.Target.UTILITY,
+        utility_category=Appeal.UtilityCategory.OTHER
+    )
+
+    await state.set_state(UtilityState.collecting)
+
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text=texts.UTILITY_TEXT,
+        state=state,
+        reply_markup=collecting_keyboard(),
+    )

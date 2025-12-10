@@ -8,32 +8,35 @@ from apps.reports.models import Appeal, TelegramUser
 from apps.reports.services import save_media_from_message
 from .user_utils import get_or_create_user
 
-
 async def create_or_update_appeal(
         message: Message,
         state: FSMContext,
         target: str,
         police_category: str = None,
+        utility_category: str = None,   # ← добавили!
 ) -> Appeal:
     """
     Создать новое обращение или получить существующее из state
-
-    Args:
-        message: Сообщение пользователя
-        state: FSM контекст
-        target: Цель обращения (POLICE, UTILITY, MAYOR, FEEDBACK)
-        police_category: Категория для полиции (опционально)
-
-    Returns:
-        Appeal: Объект обращения
     """
+
     data = await state.get_data()
     appeal_id = data.get("appeal_id")
 
+    # Если обращение уже есть — просто возвращаем
     if appeal_id:
         try:
             appeal = Appeal.objects.get(id=appeal_id)
+
+            # Обновляем категории при повторном выборе
+            if police_category:
+                appeal.police_category = police_category
+
+            if utility_category:
+                appeal.utility_category = utility_category
+
+            appeal.save()
             return appeal
+
         except Appeal.DoesNotExist:
             pass
 
@@ -48,6 +51,9 @@ async def create_or_update_appeal(
 
     if police_category:
         appeal_data["police_category"] = police_category
+
+    if utility_category:
+        appeal_data["utility_category"] = utility_category
 
     appeal = Appeal.objects.create(**appeal_data)
     await state.update_data(appeal_id=appeal.id, messages_collected=0)

@@ -15,6 +15,7 @@ from bot.keyboards import (
     main_menu_keyboard,
     police_menu_keyboard,
     back_to_menu_keyboard,
+    utility_menu_keyboard,
     BTN_BACK,
 )
 from bot.utils import (
@@ -92,14 +93,14 @@ async def menu_utility(message: Message, state: FSMContext, bot: Bot):
     # Очищаем данные предыдущего обращения
     await track_user_message(state, message.message_id)
     await state.update_data(appeal_id=None, messages_collected=0)
-    await state.set_state(UtilityState.collecting)
+    await state.set_state(UtilityState.choosing_category)
 
     await send_clean_message(
         bot=bot,
         message=message,
-        text=texts.UTILITY_TEXT,
+        text="Оберіть категорію звернення:",
         state=state,
-        reply_markup=back_to_menu_keyboard(),
+        reply_markup=utility_menu_keyboard(),
         delete_user_messages_flag=True,
     )
 

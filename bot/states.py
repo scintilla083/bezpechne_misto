@@ -17,6 +17,7 @@ class PoliceState(StatesGroup):
 
 
 class UtilityState(StatesGroup):
+    choosing_category = State()
     collecting = State()
     confirming = State()
 

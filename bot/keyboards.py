@@ -33,8 +33,11 @@ def police_menu_keyboard() -> ReplyKeyboardMarkup:
     """Меню выбора категории обращения в полицию"""
     return ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text="Повідомити про наркозлочин")],
-            [KeyboardButton(text="Інше правопорушення")],
+            [KeyboardButton(text="ДТП")],
+            [KeyboardButton(text="Розпиття")],
+            [KeyboardButton(text="Порушення громадського порядку")],
+            [KeyboardButton(text="Неправильна парковка")],
+            [KeyboardButton(text="Інше порушення")],
             [KeyboardButton(text=BTN_BACK)],
         ],
         resize_keyboard=True,
@@ -83,4 +86,18 @@ def back_to_menu_keyboard() -> ReplyKeyboardMarkup:
             [KeyboardButton(text=BTN_BACK)],
         ],
         resize_keyboard=True,
+    )
+
+def utility_menu_keyboard() -> ReplyKeyboardMarkup:
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="Переповнений смітник")],
+            [KeyboardButton(text="Наслідки негоди")],
+            [KeyboardButton(text="Зачинене бомбосховище")],
+            [KeyboardButton(text="Засмічення")],
+            [KeyboardButton(text="Інший випадок")],
+            [KeyboardButton(text=BTN_BACK)],
+        ],
+        resize_keyboard=True,
+        one_time_keyboard=True,
     )

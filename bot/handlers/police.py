@@ -44,15 +44,92 @@ async def choose_narcotic(message: Message, state: FSMContext, bot: Bot):
         reply_markup=collecting_keyboard(),
     )
 
-
-@police_router.message(PoliceState.choosing_category, F.text == "Інше правопорушення")
-async def choose_other_offense(message: Message, state: FSMContext, bot: Bot):
-    """Выбрана категория: другое правонарушение"""
-    # Отслеживаем сообщение пользователя
+@police_router.message(PoliceState.choosing_category, F.text == "ДТП")
+async def choose_accident(message: Message, state: FSMContext, bot: Bot):
     await track_user_message(state, message.message_id)
 
-    # Создаем обращение
-    appeal = await create_or_update_appeal(
+    await create_or_update_appeal(
+        message=message,
+        state=state,
+        target=Appeal.Target.POLICE,
+        police_category=Appeal.PoliceCategory.ACCIDENT,
+    )
+
+    await state.set_state(PoliceState.collecting)
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text=texts.POLICE_DETAIL_TEXT,
+        state=state,
+        reply_markup=collecting_keyboard(),
+    )
+
+@police_router.message(PoliceState.choosing_category, F.text == "Розпиття")
+async def choose_drinking(message: Message, state: FSMContext, bot: Bot):
+    await track_user_message(state, message.message_id)
+
+    await create_or_update_appeal(
+        message=message,
+        state=state,
+        target=Appeal.Target.POLICE,
+        police_category=Appeal.PoliceCategory.DRINKING,
+    )
+
+    await state.set_state(PoliceState.collecting)
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text=texts.POLICE_DETAIL_TEXT,
+        state=state,
+        reply_markup=collecting_keyboard(),
+    )
+
+@police_router.message(PoliceState.choosing_category, F.text == "Порушення громадського порядку")
+async def choose_public_order(message: Message, state: FSMContext, bot: Bot):
+    await track_user_message(state, message.message_id)
+
+    await create_or_update_appeal(
+        message=message,
+        state=state,
+        target=Appeal.Target.POLICE,
+        police_category=Appeal.PoliceCategory.PUBLIC_ORDER,
+    )
+
+    await state.set_state(PoliceState.collecting)
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text=texts.POLICE_DETAIL_TEXT,
+        state=state,
+        reply_markup=collecting_keyboard(),
+    )
+
+@police_router.message(PoliceState.choosing_category, F.text == "Неправильна парковка")
+async def choose_parking(message: Message, state: FSMContext, bot: Bot):
+    await track_user_message(state, message.message_id)
+
+    await create_or_update_appeal(
+        message=message,
+        state=state,
+        target=Appeal.Target.POLICE,
+        police_category=Appeal.PoliceCategory.PARKING,
+    )
+
+    await state.set_state(PoliceState.collecting)
+    await send_clean_message(
+        bot=bot,
+        message=message,
+        text=texts.POLICE_DETAIL_TEXT,
+        state=state,
+        reply_markup=collecting_keyboard(),
+    )
+
+
+@police_router.message(PoliceState.choosing_category, F.text == "Інше порушення")
+async def choose_other_offense(message: Message, state: FSMContext, bot: Bot):
+    await track_user_message(state, message.message_id)
+
+    await create_or_update_appeal(
         message=message,
         state=state,
         target=Appeal.Target.POLICE,
@@ -67,6 +144,7 @@ async def choose_other_offense(message: Message, state: FSMContext, bot: Bot):
         state=state,
         reply_markup=collecting_keyboard(),
     )
+
 
 
 @police_router.message(PoliceState.collecting, F.text == "✅ Завершити збір інформації")
