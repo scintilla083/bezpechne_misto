@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+
+  # -------------------------
+  # DJANGO WEB APPLICATION
+  # -------------------------
+  web:
+    build: .
+    container_name: safe_city_web
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - media_data:/app/media
+      - static_data:/app/static
+    restart: unless-stopped
+
+  # -------------------------
+  # AIROGRAM BOT
+  # -------------------------
+  bot:
+    build: .
+    container_name: safe_city_bot
+    command: >
+      sh -c "python -m bot.main"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - media_data:/app/media
+    depends_on:
+      - web
+    restart: unless-stopped
+
+# -------------------------
+# SHARED VOLUMES
+# -------------------------
+volumes:
+  media_data:
+  static_data:
